@@ -18,7 +18,7 @@
         }
     }
 
-    function lodaNextElements(){
+    function loadNextElements(){
         $.getJSON('/product-list',{lastId: lastId},function(data){
             var tbody=$('.product-panel tbody')[0];
             var newElements=data.forEach(function(item){
@@ -28,14 +28,13 @@
                 $(tr).append('<td>'+item.category+'</td>');
                 $(tr).append('<td>'+item.price+'</td>');
 
-                hideOrShow(item.category,tr);
+                var show=hideOrShow(item.category,tr);
 
                 tbody.append(tr);
                 if(lastId<item.id){
                     lastId=item.id;
                 }
             });
-            console.log(lastId);
         });
 
     }
@@ -44,7 +43,7 @@
         if($(event.target).is (':checked')){
             //showTypes.push($(event.target).parent()[0].firstChild.innerHTML);
             showTypes.push($(event.target).parent()[0].firstChild.innerHTML);
-            //console.log(event.target.dataset);
+
         }
         else{
             showTypes=showTypes.filter(function(item){
@@ -68,8 +67,7 @@
                     }
                 }
             });
-
-            lodaNextElements();
+            loadNextElements();
         }
         else{
             document.querySelectorAll('.product-panel tr').forEach(function(item){
@@ -79,12 +77,74 @@
     });
 
     $('#next').click(function(){
-       lodaNextElements();
+       loadNextElements();
     });
 
-    $('#addProductSubmit').submit(function(event){
+    function formSubmitHandler(event){
         event.preventDefault();
-        alert('s');
-        console.dir(event)
-    });
+        var ajaxStatus=document.querySelector('#ajax-status');
+        ajaxStatus.classList.remove('alert-danger-animation','alert-danger','alert-success-animation','alert-success');
+        ajaxStatus=$(ajaxStatus);
+
+        function reset(event){
+            event.preventDefault();
+        }
+        form.bind('submit',reset);
+        form.unbind('submit',formSubmitHandler);
+
+
+        var empty=false;
+        var emptyInputs=[];
+        if(this.name.value==''){
+            empty=true;
+            emptyInputs.push(' "Название товара" ');
+        }
+        if(this.category.value==''){
+            empty=true;
+            emptyInputs.push(' "Категория товара" ');
+        }
+        if(this.price.value==''){
+            empty=true;
+
+            emptyInputs.push(' "Цена" ');
+        }
+        if(this.price.value!=''){
+            if(!(+this.price.value)){
+                empty=true;
+                emptyInputs.push('. <strong>Введено недопустимое значение цены</strong>');
+            }
+        }
+        if(empty){
+            var emptyMessage='<strong>Заполните поля:</strong> '
+            emptyInputs.forEach(function(item){
+                emptyMessage+=item;
+            });
+            ajaxStatus.html(emptyMessage);
+            ajaxStatus.removeClass('alert-success');
+            ajaxStatus.addClass('alert-danger alert-danger-animation')
+            form.bind('submit',formSubmitHandler);
+            return;
+        }
+        $.post('/add-product',$(this).serialize(),function(data){
+            if(data){
+                ajaxStatus.removeClass('alert-danger');
+                ajaxStatus.addClass('alert-success alert-success-animation');
+                ajaxStatus.html('Товар добавлен');
+                form.bind('submit',formSubmitHandler);
+            }
+            else{
+                ajaxStatus.addClass('alert-danger-animation');
+                ajaxStatus.html('К сожалению, не удалось добавить товар');
+                form.bind('submit',formSubmitHandler);
+            }
+
+        }).fail(function(){
+            ajaxStatus.addClass('alert-danger-animation');
+            ajaxStatus.html('К сожалению, не удалось добавить товар');
+            form.bind('submit',formSubmitHandler);
+        });
+    }
+    var form=$('#addProductSubmit');
+    form.bind('submit',formSubmitHandler);
+
 })()

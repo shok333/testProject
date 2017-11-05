@@ -43,56 +43,6 @@ class m171104_070217_product extends Migration
             'category_id' => 2,
             'price' => 36.50
         ]);
-        $this->insert('product',[
-            'name' => 'АИ-92',
-            'category_id' => 1,
-            'price' => 34.90
-        ]);
-        $this->insert('product',[
-            'name' => 'АИ-95',
-            'category_id' => 1,
-            'price' => 36.40
-        ]);
-        $this->insert('product',[
-            'name' => 'АИ-98',
-            'category_id' => 1,
-            'price' => 38.50
-        ]);
-        $this->insert('product',[
-            'name' => 'ДТ Евро-5',
-            'category_id' => 2,
-            'price' => 34.50
-        ]);
-        $this->insert('product',[
-            'name' => 'ДТ Евро-5 Зима',
-            'category_id' => 2,
-            'price' => 36.50
-        ]);
-        $this->insert('product',[
-            'name' => 'АИ-92',
-            'category_id' => 1,
-            'price' => 34.90
-        ]);
-        $this->insert('product',[
-            'name' => 'АИ-95',
-            'category_id' => 1,
-            'price' => 36.40
-        ]);
-        $this->insert('product',[
-            'name' => 'АИ-98',
-            'category_id' => 1,
-            'price' => 38.50
-        ]);
-        $this->insert('product',[
-            'name' => 'ДТ Евро-5',
-            'category_id' => 2,
-            'price' => 34.50
-        ]);
-        $this->insert('product',[
-            'name' => 'ДТ Евро-5 Зима',
-            'category_id' => 2,
-            'price' => 36.50
-        ]);
     }
 
     /**

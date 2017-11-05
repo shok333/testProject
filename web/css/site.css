@@ -122,3 +122,48 @@ a.desc:after {
     width: 100%;
     margin: 20px 0;
 }
+
+@keyframes alert-success {
+    0%{
+        opacity: 0;
+    }
+    10%{
+        opacity: 0.6;
+    }
+    20%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+@keyframes alert-danger {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+.alert{
+    opacity: 0;
+}
+.alert-success-animation{
+    -webkit-animation-name: alert-success;
+    -moz-animation-name: alert-success;
+    -o-animation-name: alert-success;
+    animation-name: alert-success;
+    -webkit-animation-duration: 2s;
+    -moz-animation-duration: 2s;
+    -o-animation-duration: 2s;
+    animation-duration: 2s;
+}
+.alert-danger-animation{
+    -webkit-animation: alert-danger 2s;
+    -o-animation: alert-danger 2s;
+    animation: alert-danger 2s;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
